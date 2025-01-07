@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="../static/dist/css/main.css">
     <meta charset="UTF-8">
     <title>버킷리스트</title>
 </head>
@@ -9,17 +9,17 @@
 <div class = "all">
 <header>
 <div class = "headers">
-    <div class = "title">Bucket.</div>
+    <div class = "title" OnClick="location.href ='main.html'">Bucket.</div>
     <ul class = "menu">
-        <li>작성</li>
-        <li>목록</li>
+        <li> <a href="bucket-create.html">작성</a></li>
+        <li> <a href="bucket-detail.html">목록</a></li>
         <li>기타</li>
     </ul>
     <div class="search">
         <input type="text" placeholder="검색어 입력">
         <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png">
     </div>
-    <div class="login">로그인</div>
+    <div class="login" OnClick="location.href ='login.html'">로그인</div>
 </div>
 </header>
 

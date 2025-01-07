@@ -27,6 +27,14 @@ html, body {
     display: none; /* 스크롤바를 숨깁니다 */
 }
 
+a {
+    text-decoration-line: none;
+}
+
+a:visited {
+    color: black;
+}
+
 .headers {
     width: 100%;
     height: 140px;
@@ -80,7 +88,7 @@ img {
     flex-shrink: 0;
 }
 
-.main1, .main2 {
+.main {
     width: 100%;
     height: 500px;
     display: flex;
@@ -88,50 +96,55 @@ img {
     align-items: center;
     justify-content: center;
     position: relative;
-    text-align: center;
+    gap: 20px; /* 요소 간 간격 */
 }
 
-.main1 {
-    background-image: url('main1_img.png'); /* 이미지 경로 추가 */
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
+form {
+    display: flex;
+    flex-direction: column;
+    width: 80%; /* 폼의 너비를 설정 */
+    max-width: 600px; /* 최대 너비 제한 */
+    gap: 15px; /* 폼 요소 간 간격 */
 }
 
-.line1, .line2, .line3, .line4 {
-    width: 2px;
+label {
+    font-size: 18px; /* 라벨 폰트 크기 */
+    text-align: left; /* 왼쪽 정렬 */
+    width: 100%;
+}
+
+input[type="text"], input[type="date"], select, input[type="file"] {
+    width: 100%; /* 입력 필드의 너비를 100%로 설정 */
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #bbb;
+    border-radius: 8px;
+    box-sizing: border-box; /* 패딩을 포함한 크기 계산 */
+}
+
+button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
     background-color: black;
-    height: 100%;
-}
-
-.main1_title, .main2_title1 {
-    font-weight: bold;
-    font-size: 7.5vh;
-    font-style: italic;
-    margin-bottom: 20px;
-}
-
-.main2_title2 {
-    font-size: 1.8vh;
-    font-weight: bold;
-    margin-bottom: 30px;
-}
-
-.main2_button {
-    font-size: 14px;
-    padding: 12px 40px;
     color: white;
-    background-color: black;
     border: none;
-    letter-spacing: 2px;
+    border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
-    margin-bottom: 10px;
 }
 
-.main2_button:hover {
+button[type="submit"]:hover {
     background-color: #333;
     transform: scale(1.05);
+}
+
+.category_select {
+    width: 100%; /* 선택 박스 크기 맞추기 */
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #bbb;
+    border-radius: 8px;
 }
 
 footer {
