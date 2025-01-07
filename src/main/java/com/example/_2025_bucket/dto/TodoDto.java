@@ -1,5 +1,6 @@
 package com.example._2025_bucket.dto;
 
+import com.example._2025_bucket.entity.Category;
 import com.example._2025_bucket.entity.Review;
 import com.example._2025_bucket.entity.Todo;
 import com.example._2025_bucket.entity.User;
@@ -26,20 +27,11 @@ public class TodoDto {
     private LocalDateTime modified_at;
     private User user;
     private List<Review> reviews;
-    //private MultipartFile bucketImage; // MultipartFile 타입으로 변경
     private String imagePath; // 이미지 경로 저장
+    //private CategoryDto categoryDto; // 카테고리 정보 추가
+    private Category category; // Category 엔티티 참조
 
     public Todo toEntity() {
-//        byte[] imageBytes = null;
-//
-//        try {
-//            if (this.bucketImage != null && !this.bucketImage.isEmpty()) {
-//                imageBytes = this.bucketImage.getBytes(); // MultipartFile → byte[] 변환
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
         return Todo.builder()
                 .id(this.id)
                 .check_complete(this.check_complete)
@@ -49,8 +41,8 @@ public class TodoDto {
                 .modified_at(this.modified_at)
                 .user(this.user)
                 .reviews(this.reviews)
-//                .bucketImage(imageBytes) // 변환된 byte[] 데이터 전달
                 .imagePath(this.imagePath)
+                .category(this.category) // Category 엔티티 직접 참조
                 .build();
     }
 

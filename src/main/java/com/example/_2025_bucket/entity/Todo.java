@@ -24,10 +24,6 @@ public class Todo {
     private LocalDateTime create_at;
     private LocalDateTime modified_at;
 
-//    @Lob // BLOB 타입으로 매핑
-//    @Column(name = "BUCKET_IMAGE") // 데이터베이스 컬럼 이름 지정
-//    private byte[] bucketImage;
-
     @Column(name = "IMAGE_PATH") // 테이블의 IMAGE_PATH 컬럼과 매핑
     private String imagePath;
 
@@ -35,13 +31,17 @@ public class Todo {
     @JoinColumn(name = "userId")
     private User user;
 
+    @ManyToOne
+    @JoinColumn(name = "CATEGORY_ID") // CATEGORY 테이블과 연관
+    private Category category;
+
     @OneToMany(mappedBy = "todo", cascade = CascadeType.REMOVE)
     private List<Review> reviews;
 
     @Builder
     public Todo(long id, boolean check_complete, String content, LocalDate goal_day,
                 LocalDateTime create_at, LocalDateTime modified_at,
-                User user,  List<Review> reviews, byte[] bucketImage, String imagePath) {
+                User user,  List<Review> reviews, String imagePath, Category category) {
         this.id = id;
         this.content = content;
         this.goal_day = goal_day;
@@ -50,7 +50,7 @@ public class Todo {
         this.check_complete = check_complete;
         this.user = user;
         this.reviews = reviews;
-//        this.bucketImage = bucketImage;
         this.imagePath = imagePath;
+        this.category = category;
     }
 }

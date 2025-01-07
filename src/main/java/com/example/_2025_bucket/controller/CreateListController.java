@@ -1,7 +1,10 @@
 package com.example._2025_bucket.controller;
 
+import com.example._2025_bucket.dto.CategoryDto;
 import com.example._2025_bucket.dto.TodoDto;
+import com.example._2025_bucket.entity.Category;
 import com.example._2025_bucket.entity.Todo;
+import com.example._2025_bucket.service.CategoryService;
 import com.example._2025_bucket.service.TodoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,21 +24,30 @@ import java.util.List;
 public class CreateListController {
 
     private final TodoService todoService;
+    private final CategoryService categoryService;
 
-    public CreateListController(TodoService todoService) {
+    public CreateListController(TodoService todoService, CategoryService categoryService) {
         this.todoService = todoService;
+        this.categoryService = categoryService;
     }
+
 
     // 폼 페이지를 반환
     @GetMapping("/create")
     public String showCreateForm(Model model) {
         model.addAttribute("todoDto", new TodoDto()); // 빈 TodoDto 객체를 전달
+
+        // Category 데이터를 모델에 추가
+        List<CategoryDto> categories = categoryService.getAllCategories();
+        model.addAttribute("categories", categories); // 모든 카테고리를 전달
+
         return "create-form"; // create-form.html 페이지 렌더링
     }
 
     @PostMapping("/create")
     public String handleCreateForm(@ModelAttribute TodoDto todoDto,
-                                   @RequestParam("bucketImage") MultipartFile bucketImage) {
+                                   @RequestParam("bucketImage") MultipartFile bucketImage,
+                                   @RequestParam("categoryId") int categoryId) {
         try {
             if (!bucketImage.isEmpty()) {
                 // 외부 디렉토리에 저장 경로 설정
@@ -56,6 +68,10 @@ public class CreateListController {
                 todoDto.setImagePath("/images/" + fileName);
             }
 
+            // 카테고리 설정
+            Category category = categoryService.getCategoryById(categoryId).toEntity(); // Category 엔티티 반환
+            todoDto.setCategory(category); // TodoDto에 Category 엔티티 설정
+
             // 서비스 계층에 전달
             todoService.createTodo(todoDto);
         } catch (IOException e) {
@@ -64,28 +80,12 @@ public class CreateListController {
         return "redirect:/list"; // 저장 후 리스트 페이지로 리다이렉트
     }
 
+
     @GetMapping("/list")
     public String showTodoList(Model model) {
         List<TodoDto> todos = todoService.getTodoList();
         model.addAttribute("todos", todos); // 뷰로 전달할 데이터
         return "list"; // list.html 렌더링
     }
-
-//    @Controller
-//    public class TodoListController {
-//
-//        private final TodoService todoService;
-//
-//        public TodoListController(TodoService todoService) {
-//            this.todoService = todoService;
-//        }
-//
-//        @GetMapping("/list")
-//        public String showTodoList(Model model) {
-//            List<TodoDto> todos = todoService.getTodoList();
-//            model.addAttribute("todos", todos); // 뷰로 전달할 데이터
-//            return "list"; // list.html 렌더링
-//        }
-//    }
 
 }

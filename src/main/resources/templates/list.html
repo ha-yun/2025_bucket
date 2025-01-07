@@ -2,9 +2,33 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Todo List</title>
+    <style>
+        /* + 버튼 스타일 */
+        .floating-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background-color: #28a745; /* 녹색 버튼 */
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 24px;
+            text-align: center;
+            line-height: 60px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-decoration: none;
+        }
+
+        .floating-button:hover {
+            background-color: #218838; /* 버튼 호버 시 색상 */
+        }
+    </style>
 </head>
 <body>
-<h1>Todo List</h1>
+<h1>BUCKET LIST</h1>
 <div th:each="todo : ${todos}">
     <!-- 이미지 -->
     <div>
@@ -14,6 +38,9 @@
     </div>
     <!-- 제목 -->
     <p th:text="${todo.content}"></p>
+
+    <!-- 우측 하단 + 버튼 -->
+    <a href="/create" class="floating-button">+</a>
 </div>
 </body>
 </html>
