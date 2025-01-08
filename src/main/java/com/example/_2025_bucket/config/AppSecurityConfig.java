@@ -20,8 +20,7 @@ public class AppSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity)throws Exception{
         return httpSecurity
                 .authorizeRequests()
-                .requestMatchers("/", "/list", "list/detail/**", "/detail/**",
-                        "/dist/**", "/css/**", "/js/**").permitAll()
+                .requestMatchers("/", "/list", "list/detail/**", "/detail/**", "/error").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .csrf().disable()

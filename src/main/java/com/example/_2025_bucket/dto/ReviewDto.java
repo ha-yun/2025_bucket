@@ -18,13 +18,14 @@ public class ReviewDto {
     private String content;
     private LocalDateTime create_at;
     private Todo todo;
-
+    private LocalDateTime modified_at;
     public Review toEntity(){
         return Review.builder()
                 .content(this.content)
                 .create_at(this.create_at)
                 .id(this.id)
                 .todo(this.todo)
+                .modify_at(this.modified_at)
                 .build();
     }
 }
