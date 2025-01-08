@@ -1,48 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html layout:decorate="~{lib/layout}" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
-    <link rel="stylesheet" href="../static/dist/css/main.css">
     <meta charset="UTF-8">
-    <title>버킷리스트</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025 Bucket List</title>
+    <link rel="stylesheet" href="/dist/css/main.css">
 </head>
-<body>
-<div class = "all">
-<header>
-<div class = "headers">
-    <div class = "title" OnClick="location.href ='main.html'">Bucket.</div>
-    <ul class = "menu">
-        <li> <a href="bucket-create.html">작성</a></li>
-        <li> <a href="bucket-detail.html">목록</a></li>
-        <li>기타</li>
-    </ul>
-    <div class="search">
-        <input type="text" placeholder="검색어 입력">
-        <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png">
+<div class="wrapper" layout:fragment="content">
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header list_title" style="background: white">
+            <div th:replace="lib/navibar.html :: frag_navibar"></div>
+            <div class="container-fluid">
+                <div class="row" style="justify-content: center">
+                    <div onclick="window.location.href='/list'" class="col-sm-6" style="cursor: pointer">
+                        <h3 class="m-0" style="text-align: center;font-family: fantasy">2025 Bucket List</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class = "main1">
+            <div class = "line1"></div>
+            <div class = "main1_title">WELCOME TO THE<br>BUCKETLIST<br>COMMUNITY</div>
+            <div class = "line2"></div>
+        </div>
+        <div class = "main2">
+            <div class = "line3"></div>
+            <div class = "main2_title1">CREATE<br>YOUR BUCKETLIST</div>
+            <div class = "main2_title2">꿈과 목표를 체계적으로 관리하고<br>버킷리스트를 공유하며 서로 응원과 동기부여를 나눠보세요.</div>
+            <button class = "main2_button">CREATE</button>
+            <div class = "line4"></div>
+        </div>
     </div>
-    <div class="login" OnClick="location.href ='login.html'">로그인</div>
 </div>
-</header>
-
-<container>
-<div class = "main1">
-    <div class = "line1"></div>
-    <div class = "main1_title">WELCOME TO THE<br>BUCKETLIST<br>COMMUNITY</div>
-    <div class = "line2"></div>
-</div>
-<div class = "main2">
-    <div class = "line3"></div>
-    <div class = "main2_title1">CREATE<br>YOUR BUCKETLIST</div>
-    <div class = "main2_title2">꿈과 목표를 체계적으로 관리하고<br>버킷리스트를 공유하며 서로 응원과 동기부여를 나눠보세요.</div>
-    <button class = "main2_button">CREATE</button>
-    <div class = "line4"></div>
-</div>
-</container>
-
-<footer>
-<div class = "footer">
-
-</div>
-</footer>
-</div>
-</body>
 </html>

@@ -1,12 +1,15 @@
 package com.example._2025_bucket.controller;
 
 import com.example._2025_bucket.dto.CategoryDto;
+import com.example._2025_bucket.dto.UserDto;
 import com.example._2025_bucket.form.TodoForm;
 import com.example._2025_bucket.dto.TodoDto;
 import com.example._2025_bucket.service.CategoryService;
 import com.example._2025_bucket.service.TodoService;
+import com.example._2025_bucket.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,6 +21,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 
 @Controller
@@ -27,17 +31,26 @@ public class DetailController {
     private TodoService todoService;
     @Autowired
     private CategoryService categoryService;
-    //@Autowired
-    //private UserDetailsService userDetailsService;
+    @Autowired
+    private UserService userService;
 
     // 썸네일 저장 경로
     private static final String URL = "C:/uploads/images/";
 
 
     @GetMapping("")
-    public String showTodoList(Model model) {
-        List<TodoDto> todos = this.todoService.getAllTodos();
-        model.addAttribute("todos", todos); // 뷰로 전달할 데이터
+    public String showTodoList(@RequestParam(value = "categoryId", required = false) Integer categoryId, Model model) {
+        List<CategoryDto> categories = categoryService.getAllCategories(); // 모든 카테고리 조회
+        model.addAttribute("categories", categories);
+
+        List<TodoDto> todos;
+        if (categoryId != null) {
+            todos = todoService.getTodosByCategory(categoryId); // 카테고리에 해당하는 TODO 조회
+            model.addAttribute("selectedCategory", categoryId); // 선택된 카테고리 ID
+        } else {
+            todos = todoService.getAllTodos(); // 모든 TODO 조회
+        }
+        model.addAttribute("todos", todos);
         return "list"; // list.html 렌더링
     }
 
@@ -62,9 +75,18 @@ public class DetailController {
     public String modify(
             TodoForm todoForm,
             @PathVariable("id") long id,
-            Model model) {
+            Model model,
+            Authentication authentication) {
         try {
             TodoDto todoDto = todoService.getTodo(id);
+            System.out.println(authentication.getName());
+            System.out.println(todoDto.getUser().getEmail());
+            if(!Objects.equals(authentication.getName(), todoDto.getUser().getEmail())){
+                System.out.println("!!!!!!!!!!!!다른 사용자");
+                return "redirect:/list/detail/" + id;
+
+            }
+
             todoForm.setContent(todoDto.getContent());
             List<CategoryDto> categories = categoryService.getAllCategories();
             model.addAttribute("categories", categories); // 모든 카테고리를 전달
@@ -120,13 +142,19 @@ public class DetailController {
     }
 
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable("id") long id) {
+    public String delete(@PathVariable("id") long id,
+                         Authentication authentication) {
         try{
             TodoDto todoDto = this.todoService.getTodo(id);
-            this.todoService.remove(todoDto);
+            long uid = todoDto.getUser().getId();
+            if (Objects.equals(authentication.getName(), todoDto.getUser().getEmail())) {
+                this.todoService.remove(todoDto);
+                return "redirect:/list";
+            }
+
         } catch (Exception e) {
             // 해당 글 없을 때 로직
         }
-        return "redirect:/list";
+        return "redirect:/list/detail/" + id;
     }
 }
