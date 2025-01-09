@@ -6,32 +6,26 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
 @Entity
-@Getter
 @Setter
+@Getter
 @NoArgsConstructor
-public class Review {
+@Table(name = "likes")
+public class Likes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String content;
-    private LocalDateTime create_at;
-    private LocalDateTime modify_at;
+
     @ManyToOne
     private Todo todo;
+
     @ManyToOne
     private User user;
 
     @Builder
-    public Review(long id, String content, LocalDateTime create_at, Todo todo, LocalDateTime modify_at
-    , User user) {
+    public Likes(long id, Todo todo, User user){
         this.id = id;
-        this.content = content;
-        this.create_at = create_at;
         this.todo = todo;
-        this.modify_at = modify_at;
         this.user = user;
     }
 }

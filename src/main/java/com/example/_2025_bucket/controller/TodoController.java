@@ -20,6 +20,12 @@ public class TodoController {
     private final TodoService todoService;
     private final UserRepository userRepository;
 
+    @GetMapping("/user")
+    public String userInfo(@AuthenticationPrincipal User user) {
+        long id = user.getId();
+        return "redirect:/user/{id}";
+    }
+
     @GetMapping("/user/{id}")
     public String getTodosForUser(Model model, @AuthenticationPrincipal User user) {
         List<Todo> todos = todoService.getTodosByUserId(user.getId());
